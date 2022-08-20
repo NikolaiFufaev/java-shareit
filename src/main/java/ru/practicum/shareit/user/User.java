@@ -1,4 +1,4 @@
-package ru.practicum.shareit.user.model;
+package ru.practicum.shareit.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * // TODO .
+ */
 @Data
 @Builder
 @NoArgsConstructor

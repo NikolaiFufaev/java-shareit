@@ -3,7 +3,7 @@ package ru.practicum.shareit.item.model;
 import lombok.Data;
 import lombok.NonNull;
 import ru.practicum.shareit.requests.ItemRequest;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.User;
 
 /**
  * // TODO .
