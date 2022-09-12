@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import ru.practicum.shareit.Status;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.user.User;
 
@@ -44,10 +45,5 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    enum Status {
-        WAITING,    // ожидает одобрения
-        APPROVED,   // подтверждено владельцем
-        REJECTED,   // отклонено владельцем
-        CANCELED    // отменено создателем
-    }
+
 }

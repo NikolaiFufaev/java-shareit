@@ -2,6 +2,7 @@ package ru.practicum.shareit.booking;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import ru.practicum.shareit.Status;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +23,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             int bookerId, LocalDateTime start, LocalDateTime end);
 
     List<Booking> findBookingsByBookerIdAndStatus(
-            int bookerId, Booking.Status status);
+            int bookerId, Status status);
 
     @Query("select booking from Booking booking " +
             "where booking.item.owner.id = ?1 " +
@@ -58,7 +59,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("select booking from Booking booking " +
             "where booking.item.owner.id = ?1 " +
             "and booking.status = ?2")
-    List<Booking> findOwnByStatus(int itemId, Booking.Status status);
+    List<Booking> findOwnByStatus(int itemId, Status status);
 
     @Query("select booking from Booking booking " +
             "where booking.item.id = ?1 " +

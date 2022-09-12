@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.Status;
 import ru.practicum.shareit.exceptions.*;
 import ru.practicum.shareit.item.*;
 import ru.practicum.shareit.user.*;
@@ -46,7 +47,7 @@ public class BookingServiceImpl implements BookingService {
             throw new EntityNotFoundException("Владелец вещи не может её забронировать.");
         }
 
-        Booking booking = BookingMapper.toBooking(bookingDto, item.get(), user.get(), Booking.Status.WAITING);
+        Booking booking = BookingMapper.toBooking(bookingDto, item.get(), user.get(), Status.WAITING);
         bookingRepository.save(booking);
         log.trace("Добавлено бронирование ID {}, вещь ID {}.", booking.getItem(), userId);
         return BookingMapper.toBookingDto(booking);
@@ -67,7 +68,7 @@ public class BookingServiceImpl implements BookingService {
         }
 
         Booking approvedBooking = booking.get();
-        if (!approvedBooking.getStatus().equals(Booking.Status.WAITING)) {
+        if (!approvedBooking.getStatus().equals(Status.WAITING)) {
             throw new BadParameterException("Статус бронирования уже изменён.");
         }
 
@@ -77,11 +78,11 @@ public class BookingServiceImpl implements BookingService {
             throw new EntityNotFoundException("Подтердить бронирование может только владелец вещи.");
         }
 
-        Booking.Status status;
+        Status status;
         if (approve.equalsIgnoreCase(ApproveValues.TRUE.name())) {
-            status = Booking.Status.APPROVED;
+            status = Status.APPROVED;
         } else {
-            status = Booking.Status.REJECTED;
+            status = Status.REJECTED;
         }
         approvedBooking.setStatus(status);
         bookingRepository.save(approvedBooking);
@@ -149,8 +150,8 @@ public class BookingServiceImpl implements BookingService {
             }
             default: {
                 bookings =  isOwn ?
-                    bookingRepository.findOwnByStatus(userId, Booking.Status.valueOf(state)) :
-                    bookingRepository.findBookingsByBookerIdAndStatus(userId, Booking.Status.valueOf(state));
+                    bookingRepository.findOwnByStatus(userId, Status.valueOf(state)) :
+                    bookingRepository.findBookingsByBookerIdAndStatus(userId, Status.valueOf(state));
             }
         }
         log.trace("Получено записей бронирования {}.", bookings.size());
