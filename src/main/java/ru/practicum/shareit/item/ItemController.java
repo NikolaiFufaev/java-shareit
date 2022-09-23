@@ -1,55 +1,63 @@
 package ru.practicum.shareit.item;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.service.ItemService;
+import ru.practicum.shareit.Create;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import java.util.Collection;
+import java.util.List;
 
+@Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/items")
 public class ItemController {
-
-    private final ItemService itemService;
-
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
-
+    private final ItemService service;
 
     @PostMapping
-    public ItemDto create(@NotBlank @RequestHeader("X-Sharer-User-Id") long userId,
-                          @Valid @RequestBody ItemDto itemDto) {
-        return itemService.create(userId, itemDto);
-    }
-
-    @DeleteMapping("/{itemId}")
-    public void deleteById(@PathVariable Long itemId) {
-        itemService.deleteById(itemId);
+    public ItemDto add(@RequestHeader("X-Sharer-User-Id") int userId,
+                       @Validated({Create.class}) @RequestBody ItemDto itemDto) {
+        log.trace("Получен POST-запрос на добавление вещи {} от пользователя ID {}.", itemDto.getName(), userId);
+        return service.addItem(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@NotBlank @RequestHeader("X-Sharer-User-Id") long userId,
-                          @PathVariable Long itemId, @RequestBody ItemDto itemDto) {
-
-        return itemService.updateById(userId, itemId, itemDto);
+    public ItemDto update(@RequestBody ItemDto itemDto,
+                          @PathVariable int itemId,
+                          @RequestHeader("X-Sharer-User-Id") int userId) {
+        log.trace("Получен PATCH-запрос на редактирование вещи {} от пользователя ID {}.", itemDto.getName(), userId);
+        return service.updateItem(itemDto, itemId, userId);
     }
 
     @GetMapping
-    public Collection<ItemDto> findAll(@NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
-        return itemService.findAll(ownerId);
+    public List<ItemDtoOut> getAll(@RequestHeader("X-Sharer-User-Id") int userId) {
+        log.trace("Получен GET-запрос на получение списка вещей пользователя ID {}.", userId);
+        return service.getItems(userId);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto findById(@PathVariable Long itemId) {
-        return itemService.findById(itemId);
+    public ItemDtoOut get(@RequestHeader("X-Sharer-User-Id") int userId,
+                       @PathVariable int itemId) {
+        log.trace("Получен GET-запрос на вещь ID {}.", itemId);
+        return service.getItem(itemId, userId);
     }
 
-    @GetMapping("search")
-    public Collection<ItemDto> search(@NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId,
-                                      @RequestParam(required = false) String text) {
-        return itemService.searchItemByNameAndDescription(ownerId, text);
+    @GetMapping("/search")
+    public List<ItemDto> search(@RequestParam(name = "text") String text) {
+        log.trace("Получен GET-запрос на поиск вещей по ключевому слову '{}'.", text);
+        return service.search(text);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@RequestBody CommentDto commentDto,
+                                 @RequestHeader("X-Sharer-User-Id") int userId,
+                                 @PathVariable int itemId) {
+        return service.addComment(commentDto, itemId, userId);
+    }
+
+    @GetMapping("/{itemId}/comments")
+    public List<CommentDto> getComments(@PathVariable int itemId) {
+        return service.getComments(itemId);
     }
 }
