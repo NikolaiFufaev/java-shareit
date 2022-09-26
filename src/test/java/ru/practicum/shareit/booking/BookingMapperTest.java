@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BookingMapperTest {
     static LocalDateTime start = LocalDateTime.now().plusHours(1);
     static LocalDateTime end = LocalDateTime.now().plusDays(1);
-    static User user = new User(1,"Bob", "bob@mail.com");
+    static User user = new User(1, "Bob", "bob@mail.com");
     static User booker = new User(2, "Ray", "ray@mail.com");
-    static Item item = new Item(1, "Hammer", "Bob's hammer", user,true,0);
+    static Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 0);
 
     @Test
     void toBookingDto() {
-        Booking booking = new Booking(1, item, booker, start,end, Booking.Status.APPROVED);
+        Booking booking = new Booking(1, item, booker, start, end, Booking.Status.APPROVED);
         Object object = BookingMapper.toBookingDto(booking);
         assertEquals(BookingDtoOut.class, object.getClass());
         BookingDtoOut bookingDto = (BookingDtoOut) object;
@@ -32,7 +32,7 @@ class BookingMapperTest {
 
     @Test
     void toBooking() {
-        BookingDto bookingDto = new BookingDto(1,1,start,end, Booking.Status.APPROVED);
+        BookingDto bookingDto = new BookingDto(1, 1, start, end, Booking.Status.APPROVED);
         Object object = BookingMapper.toBooking(bookingDto, item, booker, Booking.Status.APPROVED);
         assertEquals(Booking.class, object.getClass());
         Booking booking = (Booking) object;

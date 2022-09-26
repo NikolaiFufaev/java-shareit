@@ -41,7 +41,7 @@ class ItemServiceImplTest {
     @Test
     void addItem() {
         ItemDto itemDto = new ItemDto(1, "Hammer", "Bob's hammer",
-                true,null,null,null);
+                true, null, null, null);
         Item item = ItemMapper.toItem(itemDto, user);
         when(itemRepository.save(any())).thenReturn(item);
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
@@ -53,16 +53,16 @@ class ItemServiceImplTest {
 
     @Test
     void updateItem() {
-        Item item = new Item(1, "Hammer", "Bob's hammer", user,true,0);
+        Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 0);
 
         ItemDto itemDto = new ItemDto(1, "Super hammer", "Bob's super hammer",
-                true,1,null,null);
+                true, 1, null, null);
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
         when(itemRepository.getReferenceById(anyInt())).thenReturn(item);
         Item updatedItem = new Item(1, "Super hammer", "Bob's super hammer",
                 user, true, 1);
-        ItemDto updatedItemDto = itemService.updateItem(itemDto,1, 1);
+        ItemDto updatedItemDto = itemService.updateItem(itemDto, 1, 1);
 
         verify(userRepository, times(1)).findById(1);
         verify(itemRepository, times(1)).findById(1);
@@ -74,7 +74,7 @@ class ItemServiceImplTest {
 
     @Test
     void getItem() {
-        Item item = new Item(1, "Hammer", "Bob's hammer", user,true,0);
+        Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 0);
         Booking pastBooking = new Booking(1, item, user, start, end, Booking.Status.APPROVED);
         Comment comment = new Comment(1, "Very heavy hammer!", item, user, end);
 
@@ -84,7 +84,7 @@ class ItemServiceImplTest {
         when(bookingRepository.findFutureBookings(anyInt(), any())).thenReturn(Collections.emptyList());
         when(commentRepository.findCommentsByItemIdOrderByCreated(anyInt()))
                 .thenReturn(Collections.singletonList(comment));
-        ItemDtoOut resultItem = itemService.getItem(1,1);
+        ItemDtoOut resultItem = itemService.getItem(1, 1);
         assertEquals("Hammer", resultItem.getName());
         assertEquals("Bob's hammer", resultItem.getDescription());
         assertEquals(start, resultItem.getLastBooking().getStart());
@@ -94,7 +94,7 @@ class ItemServiceImplTest {
 
     @Test
     void getItems() {
-        Item item = new Item(1, "Hammer", "Bob's hammer", user,true,0);
+        Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 0);
         Booking pastBooking = new Booking(1, item, user, start, end, Booking.Status.APPROVED);
         Comment comment = new Comment(1, "Very heavy hammer!", item, user, end);
         Sort sortById = Sort.by(Sort.Direction.ASC, "id");
@@ -118,7 +118,7 @@ class ItemServiceImplTest {
 
     @Test
     void search() {
-        Item item = new Item(1, "Hammer", "Bob's hammer", user,true,0);
+        Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 0);
         Sort sortById = Sort.by(Sort.Direction.ASC, "id");
         PageRequest pageRequest = PageRequest.of(5 / 10, 10, sortById);
         List<Item> items = Collections.singletonList(item);
@@ -135,15 +135,15 @@ class ItemServiceImplTest {
 
     @Test
     void addComment() {
-        Item item = new Item(1, "Hammer", "Bob's hammer", user,true,0);
+        Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 0);
         CommentDto commentDto = new CommentDto(1, "Very heavy hammer!", "Ray", end);
         Booking booking = new Booking(1, item, user, start, end, Booking.Status.APPROVED);
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
-        when(bookingRepository.findBookingsByItemAndBooker(anyInt(), anyInt(),any(LocalDateTime.class)))
+        when(bookingRepository.findBookingsByItemAndBooker(anyInt(), anyInt(), any(LocalDateTime.class)))
                 .thenReturn(Collections.singletonList(booking));
 
-        CommentDto newComment = itemService.addComment(commentDto,1,1);
+        CommentDto newComment = itemService.addComment(commentDto, 1, 1);
         verify(userRepository, times(1)).findById(1);
         verify(itemRepository, times(1)).findById(1);
         verify(bookingRepository, times(1))
@@ -154,7 +154,7 @@ class ItemServiceImplTest {
 
     @Test
     void getComments() {
-        Item item = new Item(1, "Hammer", "Bob's hammer", user,true,0);
+        Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 0);
         Comment comment = new Comment("Very heavy hammer!", item, user, end);
         when(itemRepository.findById(anyInt()))
                 .thenReturn(Optional.of(item));
@@ -170,7 +170,7 @@ class ItemServiceImplTest {
 
     @Test
     void getCommentsOwn() {
-        Item item = new Item(1, "Hammer", "Bob's hammer", user,true,0);
+        Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 0);
         Comment comment = new Comment("Very heavy hammer!", item, user, end);
 
         List<Item> items = Collections.singletonList(item);

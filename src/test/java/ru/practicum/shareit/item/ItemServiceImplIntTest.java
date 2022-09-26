@@ -33,8 +33,8 @@ public class ItemServiceImplIntTest {
     void getItems() {
         UserDto userDto = userService.addUser(new UserDto(1, "Ray", "ray@mail.com"));
         ItemDto itemDto = new ItemDto(1, "Hammer", "Bob's hammer",
-                true,null,null,null);
-        itemService.addItem(itemDto,userDto.getId());
+                true, null, null, null);
+        itemService.addItem(itemDto, userDto.getId());
 
         TypedQuery<Item> query = em.createQuery("Select item from Item item where item.owner.id = :id", Item.class);
         List<Item> items = query.setParameter("id", userDto.getId()).getResultList();
@@ -51,24 +51,24 @@ public class ItemServiceImplIntTest {
         userService.addUser(userDto2);
 
         ItemDto itemDto1 = new ItemDto(1, "Hammer", "Bob's hammer",
-                true,null,null,null);
-        itemService.addItem(itemDto1,1);
+                true, null, null, null);
+        itemService.addItem(itemDto1, 1);
         ItemDto itemDto2 = new ItemDto(2, "Screwdriver", "Ray's screwdriver",
-                true,null,null,null);
-        itemService.addItem(itemDto2,2);
+                true, null, null, null);
+        itemService.addItem(itemDto2, 2);
 
         BookingDto bookingDto1 = new BookingDto(1, 2, LocalDateTime.now().plusSeconds(1),
                 LocalDateTime.now().plusSeconds(2), Booking.Status.APPROVED);
-        bookingService.addBooking(bookingDto1,2);
+        bookingService.addBooking(bookingDto1, 2);
         BookingDto bookingDto2 = new BookingDto(2, 1, LocalDateTime.now().plusSeconds(1),
                 LocalDateTime.now().plusSeconds(2), Booking.Status.APPROVED);
-        bookingService.addBooking(bookingDto2,1);
+        bookingService.addBooking(bookingDto2, 1);
 
         Thread.sleep(2000);
 
-        CommentDto commentDto1 = new CommentDto(1,"Very heavy hammer!", "Ray", LocalDateTime.now());
+        CommentDto commentDto1 = new CommentDto(1, "Very heavy hammer!", "Ray", LocalDateTime.now());
         itemService.addComment(commentDto1, 1, 2);
-        CommentDto commentDto2 = new CommentDto(2,"Good screwdriver!", "Bob", LocalDateTime.now());
+        CommentDto commentDto2 = new CommentDto(2, "Good screwdriver!", "Bob", LocalDateTime.now());
         itemService.addComment(commentDto2, 2, 1);
 
         TypedQuery<Comment> query = em.createQuery("Select comment from Comment comment where comment.item.id = :id", Comment.class);

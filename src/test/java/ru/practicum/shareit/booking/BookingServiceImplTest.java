@@ -36,7 +36,7 @@ class BookingServiceImplTest {
 
     User booker = new User(1, "Bob", "bob@mail.com");
     User owner = new User(2, "Ray", "ray@mail.com");
-    Item item = new Item(1, "Hammer", "Ray's hammer", owner,true,0);
+    Item item = new Item(1, "Hammer", "Ray's hammer", owner, true, 0);
     BookingDto bookingDto;
     Booking booking;
 
@@ -56,7 +56,7 @@ class BookingServiceImplTest {
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(booker));
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
 
-        BookingDtoOut bookingDtoOut = bookingService.addBooking(bookingDto,1);
+        BookingDtoOut bookingDtoOut = bookingService.addBooking(bookingDto, 1);
         verify(bookingRepository, times(1)).save(booking);
         assertEquals("Hammer", bookingDtoOut.getItem().getName());
     }
@@ -94,7 +94,7 @@ class BookingServiceImplTest {
         when(bookingRepository.findById(any())).thenReturn(Optional.of(booking));
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
         Exception e = assertThrows(EntityNotFoundException.class,
-                () -> bookingService.approve(1,100, "TRUE"));
+                () -> bookingService.approve(1, 100, "TRUE"));
         assertEquals("Подтердить бронирование может только владелец вещи.", e.getMessage(),
                 "Неверная обработка ошибки с подтверждением брони не владельцем вещи.");
     }
@@ -104,7 +104,7 @@ class BookingServiceImplTest {
         booking = BookingMapper.toBooking(bookingDto, item, booker, Booking.Status.WAITING);
         when(bookingRepository.findById(any())).thenReturn(Optional.of(booking));
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
-        BookingDtoOut bookingDtoOut = bookingService.approve(1,2, "TRUE");
+        BookingDtoOut bookingDtoOut = bookingService.approve(1, 2, "TRUE");
         booking.setStatus(Booking.Status.APPROVED);
 
         verify(bookingRepository, times(1)).findById(1);
@@ -118,7 +118,7 @@ class BookingServiceImplTest {
         booking = BookingMapper.toBooking(bookingDto, item, booker, Booking.Status.WAITING);
         when(bookingRepository.findById(any())).thenReturn(Optional.of(booking));
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
-        BookingDtoOut bookingDtoOut = bookingService.approve(1,2, "FALSE");
+        BookingDtoOut bookingDtoOut = bookingService.approve(1, 2, "FALSE");
         booking.setStatus(Booking.Status.REJECTED);
 
         verify(bookingRepository, times(1)).findById(1);
@@ -133,7 +133,7 @@ class BookingServiceImplTest {
         when(bookingRepository.findById(anyInt())).thenReturn(Optional.of(booking));
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
 
-        BookingDtoOut bookingDtoOut = bookingService.get(1,1);
+        BookingDtoOut bookingDtoOut = bookingService.get(1, 1);
         verify(bookingRepository, times(1)).findById(1);
         verify(itemRepository, times(1)).findById(1);
         assertEquals("Hammer", bookingDtoOut.getItem().getName());
@@ -151,20 +151,20 @@ class BookingServiceImplTest {
         when(bookingRepository.findBookingsByBookerIdOrderByStartDesc(anyInt(), any(PageRequest.class)))
                 .thenReturn(bookingPage);
         List<BookingDtoOut> bookingsDto = bookingService.getAll(1, "ALL", false, 5, 10);
-        verify(bookingRepository, times(1)).findBookingsByBookerIdOrderByStartDesc(1,page);
+        verify(bookingRepository, times(1)).findBookingsByBookerIdOrderByStartDesc(1, page);
         assertEquals(1, bookingsDto.size());
         assertEquals("Hammer", bookingsDto.get(0).getItem().getName());
 
         when(bookingRepository.findOwn(anyInt(), any(PageRequest.class)))
                 .thenReturn(bookingPage);
         bookingService.getAll(1, "ALL", true, 5, 10);
-        verify(bookingRepository, times(1)).findOwn(1,page);
+        verify(bookingRepository, times(1)).findOwn(1, page);
 
         when(bookingRepository.findOwnCurrent(anyInt(), any(LocalDateTime.class), any(PageRequest.class)))
                 .thenReturn(bookingPage);
         bookingService.getAll(1, "CURRENT", true, 5, 10);
         verify(bookingRepository, times(1))
-                .findOwnCurrent(anyInt(),any(LocalDateTime.class), any(PageRequest.class));
+                .findOwnCurrent(anyInt(), any(LocalDateTime.class), any(PageRequest.class));
 
         when(bookingRepository.findBookingsByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
                 anyInt(), any(LocalDateTime.class), any(LocalDateTime.class), any(PageRequest.class)))
@@ -178,7 +178,7 @@ class BookingServiceImplTest {
                 .thenReturn(bookingPage);
         bookingService.getAll(1, "PAST", true, 5, 10);
         verify(bookingRepository, times(1))
-                .findOwnPast(anyInt(),any(LocalDateTime.class), any(PageRequest.class));
+                .findOwnPast(anyInt(), any(LocalDateTime.class), any(PageRequest.class));
 
         when(bookingRepository.findBookingsByBookerIdAndEndIsBeforeOrderByStartDesc(
                 anyInt(), any(LocalDateTime.class), any(PageRequest.class)))
@@ -192,7 +192,7 @@ class BookingServiceImplTest {
                 .thenReturn(bookingPage);
         bookingService.getAll(1, "FUTURE", true, 5, 10);
         verify(bookingRepository, times(1))
-                .findOwnFuture(anyInt(),any(LocalDateTime.class), any(PageRequest.class));
+                .findOwnFuture(anyInt(), any(LocalDateTime.class), any(PageRequest.class));
 
         when(bookingRepository.findBookingsByBookerIdAndStartIsAfterOrderByStartDesc(
                 anyInt(), any(LocalDateTime.class), any(PageRequest.class)))

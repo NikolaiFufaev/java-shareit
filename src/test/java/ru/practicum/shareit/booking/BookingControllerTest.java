@@ -42,10 +42,10 @@ class BookingControllerTest {
 
     @BeforeEach
     void setUp() {
-        userDto = new UserDto(1,"Bob", "bob@mail.com");
+        userDto = new UserDto(1, "Bob", "bob@mail.com");
         itemDto = new ItemDto(1, "Hammer", "Bob's hammer",
                 true, null, null, null);
-        bookingDto = new BookingDto(1,1, START, END, Booking.Status.WAITING);
+        bookingDto = new BookingDto(1, 1, START, END, Booking.Status.WAITING);
         bookingDtoOut = new BookingDtoOut(1, itemDto, userDto, START, END, Booking.Status.WAITING);
     }
 
@@ -61,7 +61,7 @@ class BookingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.item.name", is(bookingDtoOut.getItem().getName())))
                 .andExpect(jsonPath("$.booker.name", is(bookingDtoOut.getBooker().getName())));
-        verify(bookingService, times(1)).addBooking(bookingDto,1);
+        verify(bookingService, times(1)).addBooking(bookingDto, 1);
     }
 
     @Test
@@ -69,7 +69,7 @@ class BookingControllerTest {
         when(bookingService.approve(anyInt(), anyInt(), anyString())).thenReturn(bookingDtoOut);
         mockMvc.perform(MockMvcRequestBuilders.patch("/bookings/{bookingId}?approved={approved}",
                                 1, "true")
-                .header(HEADER, 1))
+                        .header(HEADER, 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.item.name", is(bookingDtoOut.getItem().getName())))
                 .andExpect(jsonPath("$.booker.name", is(bookingDtoOut.getBooker().getName())));
@@ -80,7 +80,7 @@ class BookingControllerTest {
     void get() throws Exception {
         when(bookingService.get(anyInt(), anyInt())).thenReturn(bookingDtoOut);
         mockMvc.perform(MockMvcRequestBuilders.get("/bookings/{bookingId}", 1)
-                .header(HEADER, 1))
+                        .header(HEADER, 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.item.name", is(bookingDtoOut.getItem().getName())))
                 .andExpect(jsonPath("$.booker.name", is(bookingDtoOut.getBooker().getName())));
@@ -93,7 +93,7 @@ class BookingControllerTest {
                 .thenReturn(Collections.emptyList());
         mockMvc.perform(MockMvcRequestBuilders.get("/bookings?state={state}&from={from}&size={size}",
                                 "WAITING", 1, 1)
-                .header(HEADER, 1))
+                        .header(HEADER, 1))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
         verify(bookingService, times(1))

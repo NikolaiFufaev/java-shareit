@@ -25,7 +25,7 @@ class ItemRequestMapperTest {
 
     @Test
     void toDto() {
-        ItemRequest request = new ItemRequest(1,"Request desc.", 1, time);
+        ItemRequest request = new ItemRequest(1, "Request desc.", 1, time);
         Object object = ItemRequestMapper.toDto(request);
         assertEquals(ItemRequestDto.class, object.getClass());
         ItemRequestDto requestDto = (ItemRequestDto) object;

@@ -31,7 +31,7 @@ class UserControllerTest {
 
     @BeforeEach
     void setUp() {
-        userDto = new UserDto(1,"Bob", "bob@mail.com");
+        userDto = new UserDto(1, "Bob", "bob@mail.com");
     }
 
     @Test
@@ -61,7 +61,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.id", is(userDto.getId())))
                 .andExpect(jsonPath("$.name", is(userDto.getName())))
                 .andExpect(jsonPath("$.email", is(userDto.getEmail())));
-        verify(userService, times(1)).updateUser(userDto,1);
+        verify(userService, times(1)).updateUser(userDto, 1);
     }
 
     @Test

@@ -37,7 +37,7 @@ class ItemRequestControllerTest {
 
     @BeforeEach
     void setUp() {
-        itemRequestDto = new ItemRequestDto(1,"In dire need of hammer!", 1, CREATED);
+        itemRequestDto = new ItemRequestDto(1, "In dire need of hammer!", 1, CREATED);
     }
 
     @Test
@@ -53,14 +53,14 @@ class ItemRequestControllerTest {
                 .andExpect(jsonPath("$.id", is(itemRequestDto.getId())))
                 .andExpect(jsonPath("$.description", is(itemRequestDto.getDescription())))
                 .andExpect(jsonPath("$.requesterId", is(itemRequestDto.getRequesterId())));
-        verify(itemRequestService, times(1)).addRequest(itemRequestDto,1);
+        verify(itemRequestService, times(1)).addRequest(itemRequestDto, 1);
     }
 
     @Test
     void getOwnRequests() throws Exception {
         when(itemRequestService.getOwnRequests(anyInt())).thenReturn(Collections.emptyList());
         mockMvc.perform(MockMvcRequestBuilders.get("/requests")
-                .header(HEADER, 1))
+                        .header(HEADER, 1))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
         verify(itemRequestService, times(1)).getOwnRequests(1);
@@ -69,8 +69,8 @@ class ItemRequestControllerTest {
     @Test
     void getAllRequests() throws Exception {
         when(itemRequestService.getAllRequests(anyInt(), anyInt(), anyInt())).thenReturn(Collections.emptyList());
-        mockMvc.perform(MockMvcRequestBuilders.get("/requests/all?from={from}&size={size}",1, 1)
-                .header(HEADER, 1))
+        mockMvc.perform(MockMvcRequestBuilders.get("/requests/all?from={from}&size={size}", 1, 1)
+                        .header(HEADER, 1))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
         verify(itemRequestService, times(1)).getAllRequests(1, 1, 1);
@@ -80,9 +80,9 @@ class ItemRequestControllerTest {
     void get() throws Exception {
         when(itemRequestService.get(anyInt(), anyInt())).thenReturn(itemRequestDto);
         mockMvc.perform(MockMvcRequestBuilders.get("/requests/{requestId}", 1)
-               .header(HEADER, 1))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.description", is(itemRequestDto.getDescription())));
+                        .header(HEADER, 1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.description", is(itemRequestDto.getDescription())));
         verify(itemRequestService, times(1)).get(1, 1);
     }
 }

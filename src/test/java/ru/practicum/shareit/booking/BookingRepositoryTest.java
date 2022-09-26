@@ -20,9 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 class BookingRepositoryTest {
-    @Autowired UserRepository userRepository;
-    @Autowired ItemRepository itemRepository;
-    @Autowired BookingRepository bookingRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    ItemRepository itemRepository;
+    @Autowired
+    BookingRepository bookingRepository;
     User user1, user2;
     Item item1, item2;
     Booking booking1, booking2;

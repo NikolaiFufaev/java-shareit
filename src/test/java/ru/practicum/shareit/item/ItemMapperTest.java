@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ItemMapperTest {
-    static User user = new User(1,"Bob", "Bob@mail.com");
+    static User user = new User(1, "Bob", "Bob@mail.com");
 
     @Test
     void toItemDto() {
-        Item item = new Item(1, "Hammer", "Bob's hammer", user,true,0);
+        Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 0);
         Object object = ItemMapper.toItemDto(item);
         assertEquals(ItemDto.class, object.getClass());
         ItemDto itemDto = (ItemDto) object;
@@ -32,8 +32,8 @@ class ItemMapperTest {
     void toItem() {
         LocalDateTime start = LocalDateTime.now().plusHours(1);
         LocalDateTime end = LocalDateTime.now().plusDays(1);
-        BookingDtoShort lastBooking = new BookingDtoShort(1,1,start,end, Booking.Status.APPROVED);
-        ItemDto dto = new ItemDto(1, "Hammer", "Bob's hammer",true,2,
+        BookingDtoShort lastBooking = new BookingDtoShort(1, 1, start, end, Booking.Status.APPROVED);
+        ItemDto dto = new ItemDto(1, "Hammer", "Bob's hammer", true, 2,
                 lastBooking, null);
         Object object = ItemMapper.toItem(dto, user);
         assertEquals(Item.class, object.getClass());

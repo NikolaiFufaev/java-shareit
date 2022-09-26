@@ -26,7 +26,7 @@ class ItemRequestServiceImplTest {
     ItemRequestService service = new ItemRequestServiceImpl(itemRequestRepository, itemRepository, userRepository);
     User user = new User(1, "Bob", "bob@mail.com");
     ItemRequest request = new ItemRequest(1, "In dire need of hammer!", 1, LocalDateTime.now());
-    Item item = new Item(1, "Hammer", "Bob's hammer",user, true,1);
+    Item item = new Item(1, "Hammer", "Bob's hammer", user, true, 1);
 
     @BeforeEach
     void setUp() {
@@ -36,7 +36,7 @@ class ItemRequestServiceImplTest {
     void addRequest() {
         ItemRequestDto itemRequestDto = new ItemRequestDto(1, "In dire need of hammer!",
                 1, LocalDateTime.now());
-        ItemRequest itemRequest = ItemRequestMapper.toItemRequest(itemRequestDto,1);
+        ItemRequest itemRequest = ItemRequestMapper.toItemRequest(itemRequestDto, 1);
         when(itemRequestRepository.save(any())).thenReturn(itemRequest);
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
 
@@ -51,7 +51,7 @@ class ItemRequestServiceImplTest {
         when(itemRequestRepository.findById(anyInt())).thenReturn(Optional.of(request));
         when(itemRepository.findAllByRequestIdOrderById(anyInt())).thenReturn(Collections.singletonList(item));
 
-        ItemRequestDto result = service.get(1,1);
+        ItemRequestDto result = service.get(1, 1);
         verify(userRepository, times(1)).findById(1);
         verify(itemRequestRepository, times(1)).findById(1);
         verify(itemRepository, times(1)).findAllByRequestIdOrderById(1);
@@ -87,7 +87,7 @@ class ItemRequestServiceImplTest {
         when(itemRequestRepository.findAll(any(PageRequest.class))).thenReturn(requestPage);
         when(itemRepository.findAllByRequestIdOrderById(anyInt())).thenReturn(Collections.singletonList(item));
 
-        List<ItemRequestDto> result = service.getAllRequests(5,10,1);
+        List<ItemRequestDto> result = service.getAllRequests(5, 10, 1);
         verify(itemRequestRepository, times(1)).findAll(page);
         assertEquals(1, result.size());
         assertEquals("In dire need of hammer too!", result.get(0).getDescription());
