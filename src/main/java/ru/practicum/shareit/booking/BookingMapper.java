@@ -1,9 +1,10 @@
 package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
-import ru.practicum.shareit.Status;
-import ru.practicum.shareit.item.*;
-import ru.practicum.shareit.user.*;
+import ru.practicum.shareit.item.Item;
+import ru.practicum.shareit.item.ItemMapper;
+import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.UserMapper;
 
 @RequiredArgsConstructor
 public class BookingMapper {
@@ -29,13 +30,13 @@ public class BookingMapper {
         );
     }
 
-    public static Booking toBooking(BookingDto bookingDto, Item item, User booker, Status status) {
-        return new Booking(
-                item,
-                booker,
-                bookingDto.getStart(),
-                bookingDto.getEnd(),
-                status
-        );
+    public static Booking toBooking(BookingDto dto, Item item, User booker, Booking.Status status) {
+        Booking booking = new Booking();
+        booking.setItem(item);
+        booking.setBooker(booker);
+        booking.setStart(dto.getStart());
+        booking.setEnd(dto.getEnd());
+        booking.setStatus(status);
+        return booking;
     }
 }
