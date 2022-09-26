@@ -40,4 +40,5 @@ public class Booking {
     public enum Status {
         WAITING, APPROVED, REJECTED, CANCELED
     }
+
 }

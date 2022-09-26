@@ -35,7 +35,7 @@ public class BookingServiceImpl implements BookingService {
 
         if (bookingDto.getStart().isBefore(LocalDateTime.now())
                 || bookingDto.getEnd().isBefore(LocalDateTime.now())
-                || bookingDto.getEnd().isBefore(bookingDto.getStart())) {
+                || bookingDto.getStart().isAfter(bookingDto.getEnd())) {
             throw new BadParameterException("Неверно указано время бронирования.");
         }
 
