@@ -1,9 +1,6 @@
 package ru.practicum.shareit.booking;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.user.User;
@@ -40,5 +37,4 @@ public class Booking {
     public enum Status {
         WAITING, APPROVED, REJECTED, CANCELED
     }
-
 }

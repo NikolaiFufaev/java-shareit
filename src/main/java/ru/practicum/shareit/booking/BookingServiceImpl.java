@@ -8,12 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exceptions.BadParameterException;
-import ru.practicum.shareit.exceptions.ValidationException;
-import ru.practicum.shareit.item.Item;
-import ru.practicum.shareit.item.ItemRepository;
-import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserRepository;
+import ru.practicum.shareit.exceptions.*;
+import ru.practicum.shareit.item.*;
+import ru.practicum.shareit.user.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -35,7 +32,7 @@ public class BookingServiceImpl implements BookingService {
 
         if (bookingDto.getStart().isBefore(LocalDateTime.now())
                 || bookingDto.getEnd().isBefore(LocalDateTime.now())
-                || bookingDto.getStart().isAfter(bookingDto.getEnd())) {
+                || bookingDto.getEnd().isBefore(bookingDto.getStart())) {
             throw new BadParameterException("Неверно указано время бронирования.");
         }
 

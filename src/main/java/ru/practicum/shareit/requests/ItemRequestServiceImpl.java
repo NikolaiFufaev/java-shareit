@@ -9,12 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.item.Item;
-import ru.practicum.shareit.item.ItemDtoOutShort;
-import ru.practicum.shareit.item.ItemMapper;
-import ru.practicum.shareit.item.ItemRepository;
-import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserRepository;
+import ru.practicum.shareit.item.*;
+import ru.practicum.shareit.user.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;

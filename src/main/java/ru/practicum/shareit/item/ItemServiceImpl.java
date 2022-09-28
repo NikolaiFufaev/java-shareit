@@ -9,12 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.Booking;
-import ru.practicum.shareit.booking.BookingMapper;
-import ru.practicum.shareit.booking.BookingRepository;
-import ru.practicum.shareit.exceptions.BadParameterException;
-import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserRepository;
+import ru.practicum.shareit.booking.*;
+import ru.practicum.shareit.exceptions.*;
+import ru.practicum.shareit.user.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;

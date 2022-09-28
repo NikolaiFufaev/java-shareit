@@ -1,11 +1,9 @@
 package ru.practicum.shareit.item;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.shareit.booking.BookingDtoShort;
 import ru.practicum.shareit.common.Create;
+import ru.practicum.shareit.booking.BookingDtoShort;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
