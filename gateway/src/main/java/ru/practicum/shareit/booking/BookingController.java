@@ -1,7 +1,6 @@
 package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,14 +22,11 @@ import javax.validation.constraints.PositiveOrZero;
 public class BookingController {
     private final BookingClient client;
 
-    @SneakyThrows
+
     @PostMapping
     public ResponseEntity<Object> add(@RequestHeader("X-Sharer-User-Id") int userId,
                                       @RequestBody @Valid BookItemRequestDto requestDto) {
         log.info("Creating booking {}, userId={}", requestDto, userId);
-        if (requestDto.getStart().isAfter(requestDto.getEnd())) {
-            throw new Exception();
-        }
         return client.add(userId, requestDto);
     }
 
