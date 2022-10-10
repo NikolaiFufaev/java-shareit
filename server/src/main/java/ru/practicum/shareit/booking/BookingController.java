@@ -22,15 +22,15 @@ public class BookingController {
 
     @PatchMapping("/{bookingId}")
     public BookingDtoOut approve(@RequestHeader("X-Sharer-User-Id") int userId,
-                           @PathVariable int bookingId,
-                           @RequestParam(value = "approved") String approved) {
+                                 @PathVariable int bookingId,
+                                 @RequestParam(value = "approved") String approved) {
         log.trace("Получен PATCH-запрос подтверждения брони ID {} от пользователя ID {}.", bookingId, userId);
         return service.approve(bookingId, userId, approved);
     }
 
     @GetMapping("/{bookingId}")
     public BookingDtoOut get(@RequestHeader("X-Sharer-User-Id") int userId,
-                            @PathVariable int bookingId) {
+                             @PathVariable int bookingId) {
         log.trace("Получен GET-запрос брони ID {} от пользователя ID {}.", bookingId, userId);
         return service.get(bookingId, userId);
     }
