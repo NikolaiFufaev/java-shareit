@@ -30,9 +30,9 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     Page<Booking> findOwn(int userId, Pageable page);
 
     @Query("select booking from Booking booking " +
-            "where booking.item.owner.id = ?1 and booking.start > ?2 " +
+            "where booking.item.owner.id = ?1 and booking.start > current_timestamp " +
             "order by booking.start desc")
-    Page<Booking> findOwnFuture(int userId, LocalDateTime date, Pageable page);
+    Page<Booking> findOwnFuture(int userId, Pageable page);
 
     @Query("select booking from Booking booking " +
             "where booking.item.owner.id = ?1 and booking.end < ?2 " +
@@ -41,19 +41,19 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("select booking from Booking booking " +
             "where booking.item.owner.id = ?1 " +
-            "and booking.start < ?2 and booking.end > ?2 " +
+            "and booking.start < current_timestamp and booking.end > current_timestamp " +
             "order by booking.start desc")
-    Page<Booking> findOwnCurrent(int userId, LocalDateTime date, Pageable page);
+    Page<Booking> findOwnCurrent(int userId, Pageable page);
 
     @Query("select booking from Booking booking " +
-            "where booking.item.id = ?1 and booking.end < ?2 " +
+            "where booking.item.id = ?1 and booking.end < current_timestamp " +
             "order by booking.end desc")
-    List<Booking> findPastBookings(int itemId, LocalDateTime date);
+    List<Booking> findPastBookings(int itemId);
 
     @Query("select booking from Booking booking " +
-            "where booking.item.id = ?1 and booking.start > ?2 " +
+            "where booking.item.id = ?1 and booking.start > current_timestamp " +
             "order by booking.start")
-    List<Booking> findFutureBookings(int itemId, LocalDateTime date);
+    List<Booking> findFutureBookings(int itemId);
 
     @Query("select booking from Booking booking " +
             "where booking.item.owner.id = ?1 " +
@@ -64,5 +64,5 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "where booking.item.id = ?1 " +
             "and booking.booker.id = ?2 " +
             "and booking.end < ?3")
-    List<Booking> findBookingsByItemAndBooker(int itemId, int userId, LocalDateTime date);
+    List<Booking> findBookingsByItemAndBooker(int itemId, int userId, LocalDateTime localDateTime);
 }

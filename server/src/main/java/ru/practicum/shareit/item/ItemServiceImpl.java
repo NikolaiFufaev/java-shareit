@@ -9,9 +9,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.*;
-import ru.practicum.shareit.exceptions.*;
-import ru.practicum.shareit.user.*;
+import ru.practicum.shareit.booking.Booking;
+import ru.practicum.shareit.booking.BookingMapper;
+import ru.practicum.shareit.booking.BookingRepository;
+import ru.practicum.shareit.exceptions.BadParameterException;
+import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -134,7 +137,7 @@ public class ItemServiceImpl implements ItemService {
         if (user.isEmpty() || item.isEmpty()) {
             throw new EntityNotFoundException("Данные запроса неверны.");
         }
-        if (bookingRepository.findBookingsByItemAndBooker(itemId, userId,LocalDateTime.now()).isEmpty()) {
+        if (bookingRepository.findBookingsByItemAndBooker(itemId, userId, LocalDateTime.now()).isEmpty()) {
             throw new BadParameterException("Пользователь не пользовался ранее этой вещью.");
         }
         Comment comment = CommentMapper.toComment(commentDto, item.get(), user.get());
@@ -173,18 +176,18 @@ public class ItemServiceImpl implements ItemService {
     private void addBookingToItemDto(ItemDtoOut itemDto) {
         int itemId = itemDto.getId();
 
-        LocalDateTime now = LocalDateTime.now();
+
         List<Booking> bookings;
         Booking booking;
 
-        bookings = bookingRepository.findPastBookings(itemId, now);
+        bookings = bookingRepository.findPastBookings(itemId);
         if (!bookings.isEmpty()) {
             booking = bookings.get(0);
             itemDto.setLastBooking(BookingMapper.toBookingDtoShort(booking));
         } else {
             itemDto.setLastBooking(null);
         }
-        bookings = bookingRepository.findFutureBookings(itemId, now);
+        bookings = bookingRepository.findFutureBookings(itemId);
         if (!bookings.isEmpty()) {
             booking = bookings.get(0);
             itemDto.setNextBooking(BookingMapper.toBookingDtoShort(booking));

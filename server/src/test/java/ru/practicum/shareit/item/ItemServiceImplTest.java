@@ -80,9 +80,9 @@ class ItemServiceImplTest {
         Comment comment = new Comment(1, "Very heavy hammer!", item, user, end);
 
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
-        when(bookingRepository.findPastBookings(anyInt(), any()))
+        when(bookingRepository.findPastBookings(anyInt()))
                 .thenReturn(Collections.singletonList(pastBooking));
-        when(bookingRepository.findFutureBookings(anyInt(), any())).thenReturn(Collections.emptyList());
+        when(bookingRepository.findFutureBookings(anyInt())).thenReturn(Collections.emptyList());
         when(commentRepository.findCommentsByItemIdOrderByCreated(anyInt()))
                 .thenReturn(Collections.singletonList(comment));
         ItemDtoOut resultItem = itemService.getItem(1,1);
@@ -103,9 +103,9 @@ class ItemServiceImplTest {
         List<Item> items = Collections.singletonList(item);
         Page<Item> itemPages = new PageImpl<>(items, pageRequest, items.size());
         when(itemRepository.findByOwnerIdOrderById(anyInt(), any(PageRequest.class))).thenReturn(itemPages);
-        when(bookingRepository.findPastBookings(anyInt(), any()))
+        when(bookingRepository.findPastBookings(anyInt()))
                 .thenReturn(Collections.singletonList(pastBooking));
-        when(bookingRepository.findFutureBookings(anyInt(), any())).thenReturn(Collections.emptyList());
+        when(bookingRepository.findFutureBookings(anyInt())).thenReturn(Collections.emptyList());
         when(commentRepository.findCommentsByItemIdOrderByCreated(anyInt()))
                 .thenReturn(Collections.singletonList(comment));
 

@@ -127,7 +127,7 @@ public class BookingServiceImpl implements BookingService {
             }
             case "CURRENT": {
                 bookingPages = isOwn ?
-                    bookingRepository.findOwnCurrent(userId, now, page) :
+                    bookingRepository.findOwnCurrent(userId, page) :
                     bookingRepository.findBookingsByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
                             userId, now, now, page);
                 break;
@@ -140,7 +140,7 @@ public class BookingServiceImpl implements BookingService {
             }
             case "FUTURE": {
                 bookingPages =  isOwn ?
-                    bookingRepository.findOwnFuture(userId, now, page) :
+                    bookingRepository.findOwnFuture(userId, page) :
                     bookingRepository.findBookingsByBookerIdAndStartIsAfterOrderByStartDesc(userId, now, page);
                 break;
             }

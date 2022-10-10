@@ -148,11 +148,11 @@ class BookingServiceImplTest {
         bookingService.getAll(1, "ALL", true, 5, 10);
         verify(bookingRepository, times(1)).findOwn(1,page);
 
-        when(bookingRepository.findOwnCurrent(anyInt(), any(LocalDateTime.class), any(PageRequest.class)))
+        when(bookingRepository.findOwnCurrent(anyInt(), any(PageRequest.class)))
                 .thenReturn(bookingPage);
         bookingService.getAll(1, "CURRENT", true, 5, 10);
         verify(bookingRepository, times(1))
-                .findOwnCurrent(anyInt(),any(LocalDateTime.class), any(PageRequest.class));
+                .findOwnCurrent(anyInt(), any(PageRequest.class));
 
         when(bookingRepository.findBookingsByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
                 anyInt(), any(LocalDateTime.class), any(LocalDateTime.class), any(PageRequest.class)))
@@ -176,11 +176,11 @@ class BookingServiceImplTest {
                 .findBookingsByBookerIdAndEndIsBeforeOrderByStartDesc(
                         anyInt(), any(LocalDateTime.class), any(PageRequest.class));
 
-        when(bookingRepository.findOwnFuture(anyInt(), any(LocalDateTime.class), any(PageRequest.class)))
+        when(bookingRepository.findOwnFuture(anyInt(), any(PageRequest.class)))
                 .thenReturn(bookingPage);
         bookingService.getAll(1, "FUTURE", true, 5, 10);
         verify(bookingRepository, times(1))
-                .findOwnFuture(anyInt(),any(LocalDateTime.class), any(PageRequest.class));
+                .findOwnFuture(anyInt(), any(PageRequest.class));
 
         when(bookingRepository.findBookingsByBookerIdAndStartIsAfterOrderByStartDesc(
                 anyInt(), any(LocalDateTime.class), any(PageRequest.class)))
