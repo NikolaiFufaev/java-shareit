@@ -16,9 +16,11 @@ import ru.practicum.shareit.user.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 @Slf4j
 @Service
@@ -32,8 +34,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingDtoOut addBooking(BookingDto bookingDto, int userId) {
 
-        if (bookingDto.getStart().isBefore(LocalDateTime.now())
-                || bookingDto.getEnd().isBefore(LocalDateTime.now())
+        if (bookingDto.getStart().isBefore(LocalDateTime.now(ZoneId.of("Europe/Moscow")))
+                || bookingDto.getEnd().isBefore(LocalDateTime.now(ZoneId.of("Europe/Moscow")))
                 || bookingDto.getEnd().isBefore(bookingDto.getStart())) {
             throw new BadParameterException("Неверно указано время бронирования.");
         }
